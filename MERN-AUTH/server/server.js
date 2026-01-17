@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 4000
 connectDB();
 
-const  allowedOrigins = ['http://localhost:5173', 'https://mern-auth-client-amber.vercel.app/']// can use multiple links
+const  allowedOrigins = ['http://localhost:5173', 'https://mern-auth-client-amber.vercel.app']// can use multiple links
 
 app.use(express.json());
 app.use(cookieParser());
