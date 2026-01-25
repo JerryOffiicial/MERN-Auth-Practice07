@@ -17,15 +17,27 @@ connectDB();
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+      // allow requests with no origin (like Postman)
+      if (!origin) return callback(null, true);
+
+      // allow localhost + production client
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
       }
+
+      // allow all Vercel preview URLs
+      const vercelPreview = /^https:\/\/mern-auth-client-.*\.vercel\.app$/;
+
+      if (vercelPreview.test(origin)) {
+        return callback(null, true);
+      }
+
+      callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
-  }),
+  })
 );
+
 app.use(express.json());
 app.use(cookieParser());
 
