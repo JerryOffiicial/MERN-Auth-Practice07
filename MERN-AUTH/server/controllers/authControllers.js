@@ -200,7 +200,7 @@ export const sendResetOtp = async (req, res) => {
     const mailOption = {
       from: process.env.SENDER_EMAIL,
       to: user.email,
-      subject: "Account Verification OTP",
+      subject: "Password Resetting OTP",
       //*text: `Your OTP for resetting your password is ${otp}, Use this OTP to proceed with resetting your password `,*/
       html: PASSWORD_RESET_TEMPLATE.replace("{{otp}}", otp).replace("{{email}}", user.email)
     };

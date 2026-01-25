@@ -1,1 +1,1 @@
-npm install axios react-router-dom react-tostify
+npm install axios react-router-dom react-toastify
