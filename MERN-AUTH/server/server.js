@@ -5,45 +5,20 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/mongodb.js";
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
-
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://mern-auth-client-amber.vercel.app",
-]; // can use multiple links
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4000
 connectDB();
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // allow requests with no origin (like Postman)
-      if (!origin) return callback(null, true);
-
-      // allow localhost + production client
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      // allow all Vercel preview URLs
-      const vercelPreview = /^https:\/\/mern-auth-client-.*\.vercel\.app$/;
-
-      if (vercelPreview.test(origin)) {
-        return callback(null, true);
-      }
-
-      callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
+const  allowedOrigins = ['http://localhost:5173', 'https://mern-auth-client-amber.vercel.app']// can use multiple links
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors({origin:allowedOrigins, credentials: true }));
+
 
 //AP Endpoints
 app.get("/", (req, res) => res.send("Api working"));
-app.use("/api/auth", authRouter);
-app.use("/api/user", userRouter);
+app.use('/api/auth', authRouter)
+app.use('/api/user', userRouter)
 
-// app.listen(port, () => console.log(`Server started on PORT:${port}`)); - for vercel we dont need this (for serverless)
+app.listen(port, () => console.log(`Server started on PORT:${port}`));
